@@ -1,0 +1,24 @@
+{
+  "name": "facebook-group-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes Facebook Groups",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierreminiggio/facebook-group-scraper.git"
+  },
+  "author": "Pierre MINIGGIO",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pierreminiggio/facebook-group-scraper/issues"
+  },
+  "homepage": "https://github.com/pierreminiggio/facebook-group-scraper#readme",
+  "dependencies": {
+    "puppeteer": "^5.5.0"
+  }
+}
