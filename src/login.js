@@ -28,6 +28,9 @@ export default function (page) {
         const submitButtonSelector = 'button[type="submit"]'
         await page.waitForSelector(submitButtonSelector)
         await page.click(submitButtonSelector)
+
+        await page.waitForTimeout(3000)
+        
         resolve()
     })
 }

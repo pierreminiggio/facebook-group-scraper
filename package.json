@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/pierreminiggio/facebook-group-scraper#readme",
   "dependencies": {
+    "@pierreminiggio/async-foreach": "github:pierreminiggio/async-foreach",
+    "@pierreminiggio/puppeteer-page-scroller": "github:pierreminiggio/puppeteer-page-scroller",
     "puppeteer": "^5.5.0"
   }
 }
