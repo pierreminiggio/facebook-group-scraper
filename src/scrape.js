@@ -3,6 +3,7 @@ import loginToFacebook from './login.js'
 import getPostLinks from './getPostLinks.js'
 import asyncForEach from '@pierreminiggio/async-foreach'
 import getPostContent from './getPostContent.js'
+import Post from './Entity/Post.js'
 
 /**
  * @typedef {Object} FacebookGroupScraperConfig
@@ -13,36 +14,47 @@ import getPostContent from './getPostContent.js'
  * @param {string} password
  * @param {string} groupLink
  * @param {FacebookGroupScraperConfig} config 
+ * 
+ * @returns {Post[]}
  */
-export default async function (login, password, groupLink, config = {}) {
+export default function (login, password, groupLink, config = {}) {
 
-    setDefaultConfig(config, 'scrollLength', 30000)
-    setDefaultConfig(config, 'show', false)
+    return new Promise(async (resolve, reject) => {
+        setDefaultConfig(config, 'scrollLength', 30000)
+        setDefaultConfig(config, 'show', false)
 
-    const browser = await puppeteer.launch({
-        headless: ! config.show,
-        args: [
-            '--disable-notifications'
-        ]
+        let browser
+        try {
+            browser = await puppeteer.launch({
+                headless: ! config.show,
+                args: [
+                    '--disable-notifications'
+                ]
+            })
+        } catch (e) {
+            reject(e)
+            return
+        }
+        
+        try {
+            const page = await browser.newPage()
+
+            await loginToFacebook(page, login, password)
+
+            const links = await getPostLinks(page, groupLink, config.scrollLength)
+
+            const posts = []
+            await asyncForEach(links, async link => {
+                posts.push(await getPostContent(page, link))
+            })
+
+            browser.close()
+            resolve(posts)
+        } catch (e) {
+            browser.close()
+            reject(e)
+        }
     })
-    const page = await browser.newPage()
-
-    await loginToFacebook(page, login, password)
-
-    const links = await getPostLinks(page, groupLink, config.scrollLength)
-
-    const posts = []
-    await asyncForEach(links, async link => {
-        posts.push(await getPostContent(page, link))
-    })
-
-    posts.forEach(post => {
-        console.log(post.author)
-        console.log(post.link)
-        console.log(post.comments)
-    })
-
-    browser.close()
 }
 
 /**

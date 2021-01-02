@@ -7,5 +7,5 @@ scrape(
     'Facebook login or email',
     'Facebook group password',
     'https://www.facebook.com/groups/[facebook-group]',
-    {scrollLength: 3000, show: false}
-)
+    {scrollLength: 3000, show: true}
+).then(console.log).catch(console.log)
