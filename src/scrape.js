@@ -1,13 +1,15 @@
 import puppeteer from 'puppeteer'
-import login from './login.js'
+import loginToFacebook from './login.js'
 import getPostLinks from './getPostLinks.js'
 import asyncForEach from '@pierreminiggio/async-foreach'
 import getPostContent from './getPostContent.js'
 
 /**
+ * @param {string} login
+ * @param {string} password
  * @param {boolean} show 
  */
-export default async function (show) {
+export default async function (login, password, show = false) {
     const browser = await puppeteer.launch({
         headless: ! show,
         args: [
@@ -16,7 +18,7 @@ export default async function (show) {
     })
     const page = await browser.newPage()
 
-    await login(page)
+    await loginToFacebook(page, login, password)
 
     const links = await getPostLinks(page)
 

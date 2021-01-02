@@ -1,11 +1,11 @@
-import facebookAccount from '../facebookIds.js'
-
 /**
- * @param {import("puppeteer").Page} page 
+ * @param {import("puppeteer").Page} page
+ * @param {string} login
+ * @param {string} password 
  * 
  * @returns {Promise<>}
  */
-export default function (page) {
+export default function (page, login, password) {
     return new Promise(async resolve => {
         await page.goto('https://www.facebook.com')
 
@@ -21,7 +21,7 @@ export default function (page) {
         await page.evaluate((login, password, loginInputSelector, passwordInputSelector) => {
             document.querySelector(loginInputSelector).value = login
             document.querySelector(passwordInputSelector).value = password
-        }, facebookAccount.login, facebookAccount.password, loginInputSelector, passwordInputSelector)
+        }, login, password, loginInputSelector, passwordInputSelector)
 
         await page.waitForTimeout(1000)
         
