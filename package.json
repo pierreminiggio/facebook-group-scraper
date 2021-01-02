@@ -1,5 +1,5 @@
 {
-  "name": "facebook-group-scraper",
+  "name": "@pierreminiggio/facebook-group-scraper",
   "version": "1.0.0",
   "description": "Scrapes Facebook Groups",
   "main": "./src/scrape.js",
