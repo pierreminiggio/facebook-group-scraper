@@ -28,7 +28,8 @@ export default function (login, password, groupLink, config = {}) {
             browser = await puppeteer.launch({
                 headless: ! config.show,
                 args: [
-                    '--disable-notifications'
+                    '--disable-notifications',
+                    '--no-sandbox'
                 ]
             })
         } catch (e) {
