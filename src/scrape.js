@@ -11,13 +11,14 @@ import getPostContent from './getPostContent.js'
  * 
  * @param {string} login
  * @param {string} password
+ * @param {string} groupLink
  * @param {FacebookGroupScraperConfig} config 
  */
-export default async function (login, password, config = {}) {
+export default async function (login, password, groupLink, config = {}) {
 
     setDefaultConfig(config, 'scrollLength', 30000)
     setDefaultConfig(config, 'show', false)
-    
+
     const browser = await puppeteer.launch({
         headless: ! config.show,
         args: [
@@ -28,7 +29,7 @@ export default async function (login, password, config = {}) {
 
     await loginToFacebook(page, login, password)
 
-    const links = await getPostLinks(page)
+    const links = await getPostLinks(page, groupLink, config.scrollLength)
 
     const posts = []
     await asyncForEach(links, async link => {
@@ -45,7 +46,6 @@ export default async function (login, password, config = {}) {
 }
 
 /**
- * 
  * @param {FacebookGroupScraperConfig} config 
  * @param {string} configKey 
  * @param {*} defaultValue

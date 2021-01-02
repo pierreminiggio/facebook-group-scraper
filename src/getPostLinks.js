@@ -1,15 +1,16 @@
-import config from '../config.js'
 import scroll from '@pierreminiggio/puppeteer-page-scroller'
 
 /**
  * @param {import("puppeteer").Page} page
+ * @param {string} groupLink
+ * @param {number} scrollLength
  * 
  * @returns {Promise<string[]>}
  */
-export default (page) => {
+export default (page, groupLink, scrollLength) => {
     return new Promise(async resolve => {
-        await page.goto(config.groupLink + '/feed')
-        await scroll(page, config.scrollLength)
+        await page.goto(groupLink + '/feed')
+        await scroll(page, scrollLength)
 
         const links = await page.evaluate(groupLink => {
             const links = []
@@ -25,7 +26,7 @@ export default (page) => {
             })
 
             return links
-        }, config.groupLink)
+        }, groupLink)
 
         resolve(links)
     })
