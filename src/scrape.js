@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer'
-import loginToFacebook from './login.js'
+import loginToFacebook from '@pierreminiggio/facebook-login'
 import getPostLinks from './getPostLinks.js'
 import asyncForEach from '@pierreminiggio/async-foreach'
 import getPostContent from './getPostContent.js'
@@ -49,10 +49,10 @@ export default function (login, password, groupLink, config = {}) {
                 posts.push(await getPostContent(page, link))
             })
 
-            browser.close()
+            await browser.close()
             resolve(posts)
         } catch (e) {
-            browser.close()
+            await browser.close()
             reject(e)
         }
     })
